@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>The Index — Indie Anime Archive</title>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain"></div>
+
+  <div class="wrap">
+    <header class="site-header">
+      <div>
+        <div class="eyebrow">Curated Animation Archive</div>
+        <h1>The <span>Index</span></h1>
+        <p>
+          A moderated archive for original anime, indie animation, public-domain animation,
+          and creator-approved works.
+        </p>
+      </div>
+
+      <nav>
+        <button class="nav-btn active" data-view="browseView">Browse</button>
+        <button class="nav-btn" data-view="submitView">Submit</button>
+        <button class="nav-btn" data-view="reviewView">Review</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- BROWSE -->
+      <section id="browseView" class="view active">
+        <div class="section-head">
+          <div>
+            <h2>Approved Works</h2>
+            <p>Only reviewed submissions appear here.</p>
+          </div>
+
+          <input id="searchInput" type="text" placeholder="Search title, creator, collection..." />
+        </div>
+
+        <div id="approvedGrid" class="grid"></div>
+      </section>
+
+      <!-- SUBMIT -->
+      <section id="submitView" class="view">
+        <div class="section-head">
+          <div>
+            <h2>Submit a Work</h2>
+            <p>Submissions stay private until approved.</p>
+          </div>
+        </div>
+
+        <form id="submitForm" class="panel">
+          <div class="form-grid">
+            <label>
+              Title
+              <input id="titleInput" type="text" required placeholder="Episode title or short film title" />
+            </label>
+
+            <label>
+              Creator / Studio
+              <input id="creatorInput" type="text" required placeholder="Creator name" />
+            </label>
+
+            <label>
+              Collection / Show
+              <input id="collectionInput" type="text" placeholder="Optional show or series name" />
+            </label>
+
+            <label>
+              Episode
+              <input id="episodeInput" type="text" placeholder="Optional episode number" />
+            </label>
+
+            <label>
+              Category
+              <select id="categoryInput">
+                <option>Original Anime</option>
+                <option>Indie Animation</option>
+                <option>Public Domain</option>
+                <option>Creative Commons</option>
+                <option>Creator Approved</option>
+                <option>Experimental</option>
+              </select>
+            </label>
+
+            <label>
+              License / Rights Claim
+              <select id="licenseInput">
+                <option value="">Choose one</option>
+                <option>Original work by uploader</option>
+                <option>Permission from creator</option>
+                <option>Creative Commons</option>
+                <option>Public domain</option>
+              </select>
+            </label>
+
+            <label class="wide">
+              Video URL
+              <input id="videoUrlInput" type="url" required placeholder="https://example.com/video.mp4" />
+            </label>
+
+            <label class="wide">
+              Cover Image URL
+              <input id="coverUrlInput" type="url" placeholder="https://example.com/cover.jpg" />
+            </label>
+
+            <label class="wide">
+              Description
+              <textarea id="descriptionInput" rows="5" placeholder="What is this? Who made it? Why should it be archived?"></textarea>
+            </label>
+          </div>
+
+          <label class="rights-check">
+            <input id="rightsCheck" type="checkbox" required />
+            I confirm I own this work or have permission to submit it.
+          </label>
+
+          <button type="submit" class="primary-btn">Submit for Review</button>
+
+          <p id="submitStatus" class="status"></p>
+        </form>
+      </section>
+
+      <!-- REVIEW -->
+      <section id="reviewView" class="view">
+        <div class="section-head">
+          <div>
+            <h2>Review Queue</h2>
+            <p>Approve only legal, creator-owned, licensed, or public-domain submissions.</p>
+          </div>
+
+          <button id="clearAllButton" class="danger-btn">Clear Local Data</button>
+        </div>
+
+        <div id="pendingList" class="review-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="playerDialog">
+    <div class="modal-head">
+      <h3 id="playerTitle">Player</h3>
+      <button id="closePlayerButton">Close</button>
+    </div>
+
+    <video id="playerVideo" controls></video>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
