@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>The Index — Indie Anime Archive</title>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain"></div>
+
+  <div class="wrap">
+    <header class="site-header">
+      <div>
+        <div class="eyebrow">Curated Creator-Owned Animation</div>
+        <h1>The <span>Index</span></h1>
+        <p>
+          A moderated archive for original anime, indie animation, experimental shorts,
+          public-domain animation, and creator-approved works. No submission goes public
+          until it is reviewed.
+        </p>
+      </div>
+
+      <nav>
+        <button class="nav-btn active" data-view="browseView">Browse</button>
+        <button class="nav-btn" data-view="submitView">Submit</button>
+        <button class="nav-btn" data-view="reviewView">Review</button>
+      </nav>
+    </header>
+
+    <section class="creator-callout">
+      <div>
+        <h2>Built for animators who do not fit the algorithm.</h2>
+        <p>
+          Post pilots, shorts, student films, experimental episodes, and creator-owned anime projects.
+          The archive is curated so serious work does not get buried under spam.
+        </p>
+      </div>
+
+      <button class="primary-btn" data-view-button="submitView">Submit Your Work</button>
+    </section>
+
+    <main>
+      <!-- BROWSE -->
+      <section id="browseView" class="view active">
+        <div class="section-head">
+          <div>
+            <h2>Approved Works</h2>
+            <p>Only reviewed submissions appear here.</p>
+          </div>
+
+          <div class="browse-tools">
+            <input id="searchInput" type="text" placeholder="Search title, creator, tags..." />
+
+            <select id="tagFilter">
+              <option value="">All tags</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="approvedGrid" class="grid"></div>
+      </section>
+
+      <!-- SUBMIT -->
+      <section id="submitView" class="view">
+        <div class="section-head">
+          <div>
+            <h2>Submit a Work</h2>
+            <p>
+              Upload a video file or paste a hosted video URL. Submissions stay private until approved.
+            </p>
+          </div>
+        </div>
+
+        <form id="submitForm" class="panel">
+          <div class="form-grid">
+            <label>
+              Title
+              <input id="titleInput" type="text" required placeholder="Episode title or short film title" />
+            </label>
+
+            <label>
+              Creator / Studio
+              <input id="creatorInput" type="text" required placeholder="Creator name" />
+            </label>
+
+            <label>
+              Collection / Show
+              <input id="collectionInput" type="text" placeholder="Optional show or series name" />
+            </label>
+
+            <label>
+              Episode
+              <input id="episodeInput" type="text" placeholder="Optional episode number" />
+            </label>
+
+            <label>
+              Category
+              <select id="categoryInput">
+                <option>Original Anime</option>
+                <option>Indie Animation</option>
+                <option>Public Domain</option>
+                <option>Creative Commons</option>
+                <option>Creator Approved</option>
+                <option>Experimental</option>
+              </select>
+            </label>
+
+            <label>
+              License / Rights Claim
+              <select id="licenseInput" required>
+                <option value="">Choose one</option>
+                <option>Original work by uploader</option>
+                <option>Permission from creator</option>
+                <option>Creative Commons</option>
+                <option>Public domain</option>
+              </select>
+            </label>
+
+            <div class="wide">
+              <div class="field-title">Tags</div>
+
+              <div id="tagPicker" class="tag-picker">
+                <label><input type="checkbox" name="tag" value="action" /> Action</label>
+                <label><input type="checkbox" name="tag" value="adventure" /> Adventure</label>
+                <label><input type="checkbox" name="tag" value="romance" /> Romance</label>
+                <label><input type="checkbox" name="tag" value="comedy" /> Comedy</label>
+                <label><input type="checkbox" name="tag" value="drama" /> Drama</label>
+                <label><input type="checkbox" name="tag" value="fantasy" /> Fantasy</label>
+                <label><input type="checkbox" name="tag" value="sci-fi" /> Sci-Fi</label>
+                <label><input type="checkbox" name="tag" value="horror" /> Horror</label>
+                <label><input type="checkbox" name="tag" value="mystery" /> Mystery</label>
+                <label><input type="checkbox" name="tag" value="thriller" /> Thriller</label>
+                <label><input type="checkbox" name="tag" value="slice-of-life" /> Slice of Life</label>
+                <label><input type="checkbox" name="tag" value="supernatural" /> Supernatural</label>
+                <label><input type="checkbox" name="tag" value="mecha" /> Mecha</label>
+                <label><input type="checkbox" name="tag" value="sports" /> Sports</label>
+                <label><input type="checkbox" name="tag" value="music" /> Music</label>
+                <label><input type="checkbox" name="tag" value="psychological" /> Psychological</label>
+                <label><input type="checkbox" name="tag" value="experimental" /> Experimental</label>
+                <label><input type="checkbox" name="tag" value="short-film" /> Short Film</label>
+                <label><input type="checkbox" name="tag" value="pilot" /> Pilot</label>
+                <label><input type="checkbox" name="tag" value="student-film" /> Student Film</label>
+              </div>
+
+              <small>Choose from the approved tags. Users cannot make up their own tags.</small>
+            </div>
+
+            <label class="wide">
+              Upload Video File
+              <input id="videoFileInput" type="file" accept="video/*" />
+              <small>
+                Prototype note: files are stored only in this browser until real cloud storage is added.
+              </small>
+            </label>
+
+            <label class="wide">
+              Or Hosted Video URL
+              <input id="videoUrlInput" type="url" placeholder="https://example.com/video.mp4" />
+            </label>
+
+            <label class="wide">
+              Upload Cover Image
+              <input id="coverFileInput" type="file" accept="image/*" />
+            </label>
+
+            <label class="wide">
+              Or Cover Image URL
+              <input id="coverUrlInput" type="url" placeholder="https://example.com/cover.jpg" />
+            </label>
+
+            <label class="wide">
+              Description
+              <textarea
+                id="descriptionInput"
+                rows="5"
+                placeholder="What is this? Who made it? Why should it be archived?"
+              ></textarea>
+            </label>
+          </div>
+
+          <label class="rights-check">
+            <input id="rightsCheck" type="checkbox" required />
+            I confirm I own this work or have permission to submit it.
+          </label>
+
+          <button type="submit" class="primary-btn">Submit for Review</button>
+
+          <p id="submitStatus" class="status"></p>
+        </form>
+      </section>
+
+      <!-- REVIEW -->
+      <section id="reviewView" class="view">
+        <div class="section-head">
+          <div>
+            <h2>Admin Review</h2>
+            <p>Approve, reject, or remove submissions. This lock is prototype-only security.</p>
+          </div>
+        </div>
+
+        <section id="adminLogin" class="panel admin-login">
+          <h3>Admin access</h3>
+          <p>Enter your admin password to review submissions.</p>
+
+          <div class="admin-row">
+            <input id="adminPasswordInput" type="password" placeholder="Admin password" />
+            <button id="adminLoginButton" class="primary-btn" type="button">Unlock</button>
+          </div>
+
+          <p id="adminStatus" class="status"></p>
+        </section>
+
+        <section id="adminPanel" class="hidden">
+          <div class="admin-actions">
+            <button id="adminLogoutButton" class="secondary-btn" type="button">Lock Admin</button>
+            <button id="clearAllButton" class="danger-btn" type="button">Clear Local Data</button>
+          </div>
+
+          <h3 class="queue-title">Pending Queue</h3>
+          <div id="pendingList" class="review-list"></div>
+
+          <h3 class="queue-title">Approved Works</h3>
+          <div id="approvedAdminList" class="review-list"></div>
+
+          <h3 class="queue-title">Rejected Works</h3>
+          <div id="rejectedAdminList" class="review-list"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="playerDialog">
+    <div class="modal-head">
+      <h3 id="playerTitle">Player</h3>
+      <button id="closePlayerButton" type="button">Close</button>
+    </div>
+
+    <video id="playerVideo" controls></video>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
