@@ -1,9 +1,8 @@
-const STORAGE_KEY = "legalAnimeSubmissions.v3";
+const STORAGE_KEY = "legalAnimeSubmissions.v4";
 const ADMIN_SESSION_KEY = "legalAnimeAdminUnlocked.v1";
 
-// Prototype-only admin password.
-// This is not real production security because frontend code is visible.
-// Change this before sharing the link.
+// SHA-256 hash for: IdontLiketomatoes007!
+// Prototype-only. This is not real production security.
 const ADMIN_PASSWORD_HASH = "7e7db77c830c5c1b694dbe7a7e2567a36105475d7bf45c9fa4f1b3c132f98b3c";
 
 const DB_NAME = "LegalAnimeAppFiles";
@@ -62,6 +61,16 @@ const closePlayerButton = document.getElementById("closePlayerButton");
 
 let submissions = loadSubmissions();
 let activeObjectUrls = [];
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+  return [...new Uint8Array(hashBuffer)]
+    .map(byte => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
 
 function openFileDb() {
   return new Promise((resolve, reject) => {
@@ -159,11 +168,18 @@ function seedData() {
       status: "approved",
       title: "Sample Indie Animation",
       creator: "Example Creator",
+      creatorBio: "Independent animator exploring short-form anime storytelling.",
+      creatorWebsite: "",
+      socialLink: "",
+      supportLink: "",
       collection: "Pilot Collection",
       episode: "1",
+      projectStatus: "Pilot",
+      releaseYear: "2026",
+      runtime: "2 min",
       category: "Original Anime",
       license: "Original work by uploader",
-      tags: ["pilot", "indie", "short-film"].filter(tag => ALLOWED_TAGS.includes(tag)),
+      tags: ["pilot", "short-film"].filter(tag => ALLOWED_TAGS.includes(tag)),
       videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
       videoBlobId: "",
       coverUrl: "",
@@ -275,8 +291,12 @@ async function renderApproved() {
       const haystack = [
         item.title,
         item.creator,
+        item.creatorBio,
         item.collection,
         item.category,
+        item.projectStatus,
+        item.releaseYear,
+        item.runtime,
         item.description,
         ...cleanTags.map(formatTag)
       ].join(" ").toLowerCase();
@@ -285,7 +305,7 @@ async function renderApproved() {
     });
 
   if (approved.length === 0) {
-    approvedGrid.innerHTML = `<div class="empty">No matching approved works.</div>`;
+    approvedGrid.innerHTML = `<div class="empty">No matching curated works.</div>`;
     return;
   }
 
@@ -305,6 +325,21 @@ async function renderApproved() {
       .map(tag => `<span class="tag">${escapeHtml(formatTag(tag))}</span>`)
       .join("");
 
+    const projectSpecs = [
+      item.projectStatus,
+      item.releaseYear,
+      item.runtime
+    ]
+      .filter(Boolean)
+      .map(value => `<span>${escapeHtml(value)}</span>`)
+      .join("");
+
+    const creatorLinks = [
+      item.creatorWebsite ? `<a href="${escapeHtml(item.creatorWebsite)}" target="_blank" rel="noopener">Website</a>` : "",
+      item.socialLink ? `<a href="${escapeHtml(item.socialLink)}" target="_blank" rel="noopener">Social</a>` : "",
+      item.supportLink ? `<a href="${escapeHtml(item.supportLink)}" target="_blank" rel="noopener">Support</a>` : ""
+    ].join("");
+
     const adminRemove = isAdminUnlocked()
       ? `<button class="remove" data-remove="${escapeHtml(item.id)}">Remove</button>`
       : "";
@@ -323,9 +358,15 @@ async function renderApproved() {
           ${item.episode ? ` · Episode ${escapeHtml(item.episode)}` : ""}
         </div>
 
+        ${item.creatorBio ? `<p class="meta">${escapeHtml(item.creatorBio)}</p>` : ""}
+
+        <div class="project-specs">${projectSpecs}</div>
+
         <div class="tags">${tags}</div>
 
         <p class="desc">${escapeHtml(item.description)}</p>
+
+        <div class="creator-links">${creatorLinks}</div>
 
         <div class="actions">
           <button data-play="${escapeHtml(item.id)}">Watch</button>
@@ -391,6 +432,17 @@ async function renderList(container, items, type) {
             ${escapeHtml(item.creator)}
             · ${escapeHtml(item.category)}
             · ${escapeHtml(item.license)}
+            ${item.projectStatus ? ` · ${escapeHtml(item.projectStatus)}` : ""}
+            ${item.releaseYear ? ` · ${escapeHtml(item.releaseYear)}` : ""}
+            ${item.runtime ? ` · ${escapeHtml(item.runtime)}` : ""}
+          </div>
+
+          ${item.creatorBio ? `<p class="meta">${escapeHtml(item.creatorBio)}</p>` : ""}
+
+          <div class="creator-links">
+            ${item.creatorWebsite ? `<a href="${escapeHtml(item.creatorWebsite)}" target="_blank" rel="noopener">Website</a>` : ""}
+            ${item.socialLink ? `<a href="${escapeHtml(item.socialLink)}" target="_blank" rel="noopener">Social</a>` : ""}
+            ${item.supportLink ? `<a href="${escapeHtml(item.supportLink)}" target="_blank" rel="noopener">Support</a>` : ""}
           </div>
 
           <div class="tags">
@@ -556,8 +608,15 @@ submitForm.addEventListener("submit", async event => {
       status: "pending",
       title: document.getElementById("titleInput").value.trim(),
       creator: document.getElementById("creatorInput").value.trim(),
+      creatorBio: document.getElementById("creatorBioInput").value.trim(),
+      creatorWebsite: document.getElementById("creatorWebsiteInput").value.trim(),
+      socialLink: document.getElementById("socialLinkInput").value.trim(),
+      supportLink: document.getElementById("supportLinkInput").value.trim(),
       collection: document.getElementById("collectionInput").value.trim(),
       episode: document.getElementById("episodeInput").value.trim(),
+      projectStatus: document.getElementById("projectStatusInput").value,
+      releaseYear: document.getElementById("releaseYearInput").value.trim(),
+      runtime: document.getElementById("runtimeInput").value.trim(),
       category: document.getElementById("categoryInput").value,
       license,
       tags: selectedTags,
@@ -582,16 +641,6 @@ submitForm.addEventListener("submit", async event => {
     submitStatus.textContent = "Could not save this file locally. It may be too large for browser storage.";
   }
 });
-
-async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-
-  return [...new Uint8Array(hashBuffer)]
-    .map(byte => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
 
 adminLoginButton.addEventListener("click", async () => {
   const enteredHash = await sha256(adminPasswordInput.value);
