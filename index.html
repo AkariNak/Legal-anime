@@ -32,23 +32,40 @@
 
     <section class="creator-callout">
       <div>
-        <h2>Built for animators who do not fit the algorithm.</h2>
+        <h2>For anime creators building outside the algorithm.</h2>
         <p>
-          Post pilots, shorts, student films, experimental episodes, and creator-owned anime projects.
-          The archive is curated so serious work does not get buried under spam.
+          Submit pilots, shorts, trailers, early episodes, student films, and experimental animation.
+          Add project notes, tags, creator links, and support links so viewers can follow your work
+          beyond one upload.
         </p>
       </div>
 
       <button class="primary-btn" data-view-button="submitView">Submit Your Work</button>
     </section>
 
+    <section class="value-strip">
+      <article>
+        <h3>Curated, not dumped</h3>
+        <p>Every submission is reviewed before it appears publicly.</p>
+      </article>
+
+      <article>
+        <h3>Built around creators</h3>
+        <p>Show your studio, links, support page, project status, and notes.</p>
+      </article>
+
+      <article>
+        <h3>Made for discovery</h3>
+        <p>Viewers can browse by genre, project type, creator, and collection.</p>
+      </article>
+    </section>
+
     <main>
-      <!-- BROWSE -->
       <section id="browseView" class="view active">
         <div class="section-head">
           <div>
-            <h2>Approved Works</h2>
-            <p>Only reviewed submissions appear here.</p>
+            <h2>Curated Works</h2>
+            <p>Reviewed indie anime, animation pilots, shorts, and creator-owned projects.</p>
           </div>
 
           <div class="browse-tools">
@@ -63,7 +80,6 @@
         <div id="approvedGrid" class="grid"></div>
       </section>
 
-      <!-- SUBMIT -->
       <section id="submitView" class="view">
         <div class="section-head">
           <div>
@@ -83,7 +99,12 @@
 
             <label>
               Creator / Studio
-              <input id="creatorInput" type="text" required placeholder="Creator name" />
+              <input id="creatorInput" type="text" required placeholder="Creator or studio name" />
+            </label>
+
+            <label>
+              Creator Bio
+              <input id="creatorBioInput" type="text" placeholder="Animator, studio, student team, etc." />
             </label>
 
             <label>
@@ -94,6 +115,30 @@
             <label>
               Episode
               <input id="episodeInput" type="text" placeholder="Optional episode number" />
+            </label>
+
+            <label>
+              Project Status
+              <select id="projectStatusInput">
+                <option>Pilot</option>
+                <option>Short Film</option>
+                <option>Episode</option>
+                <option>Trailer</option>
+                <option>Student Film</option>
+                <option>Experimental</option>
+                <option>In Development</option>
+                <option>Completed Series</option>
+              </select>
+            </label>
+
+            <label>
+              Release Year
+              <input id="releaseYearInput" type="number" min="1900" max="2100" placeholder="2026" />
+            </label>
+
+            <label>
+              Runtime
+              <input id="runtimeInput" type="text" placeholder="8 min, 24 min, 1h 12m" />
             </label>
 
             <label>
@@ -117,6 +162,21 @@
                 <option>Creative Commons</option>
                 <option>Public domain</option>
               </select>
+            </label>
+
+            <label class="wide">
+              Creator Website
+              <input id="creatorWebsiteInput" type="url" placeholder="https://creator-site.com" />
+            </label>
+
+            <label class="wide">
+              Social Link
+              <input id="socialLinkInput" type="url" placeholder="https://youtube.com/@creator or https://x.com/creator" />
+            </label>
+
+            <label class="wide">
+              Support Link
+              <input id="supportLinkInput" type="url" placeholder="https://ko-fi.com/creator or https://patreon.com/creator" />
             </label>
 
             <div class="wide">
@@ -192,7 +252,6 @@
         </form>
       </section>
 
-      <!-- REVIEW -->
       <section id="reviewView" class="view">
         <div class="section-head">
           <div>
