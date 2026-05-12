@@ -153,6 +153,32 @@ textarea {
   border-color: var(--bg);
 }
 
+.value-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+
+.value-strip article {
+  background: var(--card);
+  padding: 18px;
+}
+
+.value-strip h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.value-strip p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .view {
   display: none;
 }
@@ -208,7 +234,7 @@ textarea {
 .card {
   background: var(--card);
   padding: 18px;
-  min-height: 385px;
+  min-height: 430px;
   display: flex;
   flex-direction: column;
 }
@@ -257,14 +283,17 @@ small {
   line-height: 1.45;
 }
 
-.tags {
+.tags,
+.creator-links,
+.project-specs {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin: 10px 0 0;
 }
 
-.tag {
+.tag,
+.project-specs span {
   border: 1px solid var(--line);
   padding: 4px 7px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -272,6 +301,21 @@ small {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
+}
+
+.project-specs span {
+  border-style: dashed;
+}
+
+.creator-links a {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  padding: 6px 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .actions {
@@ -488,6 +532,10 @@ dialog::backdrop {
   .creator-callout,
   .section-head,
   .review-item {
+    grid-template-columns: 1fr;
+  }
+
+  .value-strip {
     grid-template-columns: 1fr;
   }
 
